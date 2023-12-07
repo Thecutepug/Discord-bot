@@ -1,5 +1,7 @@
+import os
 import discord
 from discord.ext import commands
+
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -31,4 +33,4 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-bot.run('MTE4MjA5Mzk5MDQ0NzgxNjcyNA.GsT0Z3.-GiQfgLie_tOAsMQOC3AZ7x2lGZAsOzZCo8q9o')
+bot.run(os.environ["DISCORD_TOKEN"])
