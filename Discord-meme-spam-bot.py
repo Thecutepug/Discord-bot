@@ -2,7 +2,7 @@ import os
 import discord
 from discord.ext import commands
 
-
+print("Bot started")
 intents = discord.Intents.default()
 intents.messages = True
 intents.guilds = True
