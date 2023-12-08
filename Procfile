@@ -1,1 +1,1 @@
-worker:python3 Discord-meme-spam-bot.py
+worker:node Discord-meme-spam-bot.py
