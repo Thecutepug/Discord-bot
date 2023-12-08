@@ -33,5 +33,4 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-# bot.run(os.environ["DISCORD_TOKEN"])
-bot.run('MTE4MjA5Mzk5MDQ0NzgxNjcyNA.GJo4-U.44144tJjyrcOBXMFZRLhCoiBfIHnII1GdQ7VwU')
+bot.run(os.environ["DISCORD_TOKEN"])
