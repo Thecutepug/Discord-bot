@@ -2,12 +2,13 @@ import os
 import discord
 from discord.ext import commands
 
-print("Bot started")
-intents = discord.Intents.default()
+print("Connecting to Discord...")
+
+intents = discord.Intents.all()
 intents.messages = True
 intents.guilds = True
 intents.dm_messages = True
-
+token = os.environ.get('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix="/", intents=intents)
 
 @bot.event
@@ -29,8 +30,11 @@ async def on_message(message):
 
         # Check if there are any attachments (images) and send them as well
         for attachment in message.attachments:
-            await target_channel.send(f"**I also recieved an image:** {attachment.url}")
+            await target_channel.send(f"**I recieved an image:** {attachment.url}")
 
     await bot.process_commands(message)
 
-bot.run(os.environ["DISCORD_TOKEN"])
+if token is None:
+    print("Error: Discord bot token not found")
+else:
+    bot.run(os.environ["DISCORD_TOKEN"])
