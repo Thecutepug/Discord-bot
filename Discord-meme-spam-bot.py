@@ -8,7 +8,6 @@ intents = discord.Intents.all()
 intents.messages = True
 intents.guilds = True
 intents.dm_messages = True
-token = os.environ.get("DISCORD_TOKEN")
 bot = commands.Bot(command_prefix="/", intents=intents)
 
 @bot.event
@@ -28,7 +27,7 @@ async def on_message(message):
 
         # Check if there are any attachments (images) and send them as well
         for attachment in message.attachments:
-            await target_channel.send(f"**I recieved an image:** {attachment.url}")
+            await target_channel.send(f"**I recieved an image:** \n{attachment.url}")
 
     await bot.process_commands(message)
 
