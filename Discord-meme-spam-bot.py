@@ -9,7 +9,7 @@ intents = discord.Intents.all()
 #intents.messages = True
 #intents.guilds = True
 #intents.dm_messages = True
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(command_prefix="/", intents=intents, help_command=commands.DefaultHelpCommand())
 
 #Launch event in console
 @bot.event
@@ -58,13 +58,30 @@ async def repeat(ctx, *, message):
     await ctx.send(message)
 
 #Help Command
+class CustomHelpCommand(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        bot.help_command = self.CustomHelpCommand()
+
+
+class CustomHelpCommand(commands.DefaultHelpCommand):
+        async def send_bot_help(self, mapping):
+            embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
+
+            for cog, commands in mapping.items():
+                if cog:
+                    embed.add_field(name=cog.qualified_name, value="\n".join(f"/{command.name} - {command.short_doc}" for command in commands), inline=False)
+                else:
+                    embed.add_field(name="Other Commands", value="\n".join(f"/{command.name} - {command.short_doc}" for command in commands), inline=False)
+
+            channel = self.get_destination()
+            await channel.send(embed=embed)
+
+# Load the custom help command cog
+bot.add_cog(CustomHelpCommand(bot))
+
+# Override the default /help command
 @bot.command(name='help', help='Display a list of available commands and their descriptions')
-async def help_command(ctx):
-    embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
-
-    for command in bot.commands:
-        embed.add_field(name=f"/{command.name}", value=command.help, inline=False)
-
-    await ctx.send(embed=embed)
-
+async def custom_help_command(ctx):
+    bot.help_command.CustomHelpCommand(ctx.bot).send_bot_help(ctx.bot.cogs)
 bot.run(os.environ["DISCORD_TOKEN"])
