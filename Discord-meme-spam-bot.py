@@ -50,6 +50,6 @@ async def hello(ctx):
 
 @bot.command(name='repeat', help='Repeat a message')
 async def repeat(ctx, *, message):
-    await ctx.send("I said: "(message))
+    await ctx.send(f"I said: "(message))
 
 bot.run(os.environ["DISCORD_TOKEN"])
