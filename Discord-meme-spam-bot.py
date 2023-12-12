@@ -54,10 +54,6 @@ async def do_you_love_me(ctx):
 async def hello(ctx):
     await ctx.send(f'Hello {ctx.author.mention}!')
 
-#Repeat Command
-@bot.command(name='repeat', help='Repeat a message')
-async def repeat(ctx, *, message):
-    await ctx.send(message)
 
 #Runs Bot
 bot.run(os.environ["DISCORD_TOKEN"])
