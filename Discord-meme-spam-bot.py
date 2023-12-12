@@ -57,27 +57,5 @@ async def hello(ctx):
 async def repeat(ctx, *, message):
     await ctx.send(message)
 
-#Help Command
-class CustomHelpCommand(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-
-class CustomHelpCommand(commands.DefaultHelpCommand):
-        async def send_bot_help(self, mapping):
-            embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
-
-            for cog, commands in mapping.items():
-                if cog:
-                    embed.add_field(name=cog.qualified_name, value="\n".join(f"/{command.name} - {command.short_doc}" for command in commands), inline=False)
-                else:
-                    embed.add_field(name="Other Commands", value="\n".join(f"/{command.name} - {command.short_doc}" for command in commands), inline=False)
-
-            channel = self.get_destination()
-            await channel.send(embed=embed)
-
-# Instantiate the CustomHelpCommand directly
-bot.help_command = CustomHelpCommand(bot)
-
 #Runs Bot
 bot.run(os.environ["DISCORD_TOKEN"])
