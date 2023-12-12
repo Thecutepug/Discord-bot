@@ -61,12 +61,12 @@ async def repeat(ctx, *, message):
 class CustomHelpCommand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        bot.help_command = self.CustomHelpCommand()
+        self.bot.help_command = self.CustomHelpCommand(bot)
 
 
 class CustomHelpCommand(commands.DefaultHelpCommand):
         async def send_bot_help(self, mapping):
-            embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
+            embed = discord.Embed(title="Bot Commands", color=discord.Color.red())
 
             for cog, commands in mapping.items():
                 if cog:
@@ -84,4 +84,7 @@ bot.add_cog(CustomHelpCommand(bot))
 @bot.command(name='help', help='Display a list of available commands and their descriptions')
 async def custom_help_command(ctx):
     bot.help_command.CustomHelpCommand(ctx.bot).send_bot_help(ctx.bot.cogs)
+
+
+#Runs Bot
 bot.run(os.environ["DISCORD_TOKEN"])
