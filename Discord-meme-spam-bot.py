@@ -11,6 +11,7 @@ intents = discord.Intents.all()
 #intents.dm_messages = True
 bot = commands.Bot(command_prefix="@Devil's Bot ", intents=intents, help_command=commands.DefaultHelpCommand())
 
+#
 #Launch event in console
 @bot.event
 async def on_ready():
