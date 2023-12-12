@@ -39,10 +39,11 @@ async def do_you_love_me(ctx):
         "No",
         "Yes",
         "HAHAHAHAHAHA ... what?!",
+        "K."
     ]
 
     # Assigning probabilities to the responses
-    weights = [0.5, 0.25, 0.25]
+    weights = [0.49, 0.25, 0.25,0.01]
 
     response = random.choices(responses, weights)[0]
     await ctx.send(response)
