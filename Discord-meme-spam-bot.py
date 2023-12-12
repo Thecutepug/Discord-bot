@@ -9,7 +9,7 @@ intents = discord.Intents.all()
 #intents.messages = True
 #intents.guilds = True
 #intents.dm_messages = True
-bot = commands.Bot(command_prefix="@Devil's Bot ", intents=intents, help_command=commands.DefaultHelpCommand())
+bot = commands.Bot(command_prefix=":", intents=intents, help_command=commands.DefaultHelpCommand())
 
 #
 #Launch event in console
