@@ -23,17 +23,19 @@ async def bump_task(channel):
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user.name}")
+    '''
     bump_channel_id = 1184324679473840208
     bump_channel = bot.get_channel(bump_channel_id)
 
     # Start the background task to send "/bump" every 4 hours
     bump_task.start(bump_channel)
-
+    '''
+'''
 #Loop Tasks
 @tasks.loop(hours=4)
 async def bump_task(channel):
     await channel.send("/bump")
-
+'''
 #DM bot command
 @bot.event
 async def on_message(message):
