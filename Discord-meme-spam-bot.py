@@ -1,7 +1,8 @@
 import os
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import random
+from datetime import datetime, timedelta
 
 print("Connecting to Discord...")
 
@@ -11,11 +12,27 @@ intents = discord.Intents.all()
 #intents.dm_messages = True
 bot = commands.Bot(command_prefix=";", intents=intents, help_command=commands.DefaultHelpCommand())
 
-#
+
+@tasks.loop(hours=4)
+async def bump_task(channel):
+    await channel.send("/bump")
+
+
+
 #Launch event in console
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user.name}")
+    bump_channel_id = 1184324679473840208
+    bump_channel = bot.get_channel(bump_channel_id)
+
+    # Start the background task to send "/bump" every 4 hours
+    bump_task.start(bump_channel)
+
+#Loop Tasks
+@tasks.loop(hours=4)
+async def bump_task(channel):
+    await channel.send("/bump")
 
 #DM bot command
 @bot.event
