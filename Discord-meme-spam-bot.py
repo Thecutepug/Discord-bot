@@ -30,13 +30,16 @@ async def on_ready():
     # Start the background task to send "/bump" every 4 hours
     bump_task.start(bump_channel)
     '''
-'''
+
 #Loop Tasks
+'''
 @tasks.loop(hours=4)
 async def bump_task(channel):
     await channel.send("/bump")
 '''
+
 #DM bot command
+'''
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
@@ -51,7 +54,8 @@ async def on_message(message):
             await target_channel.send(f"**I received an image:** \n{attachment.url}")
 
     await bot.process_commands(message)
-
+'''
+    
 #Do you love me command
 @bot.command(name='do_you_love_me', help='Ask the bot if it loves you')
 async def do_you_love_me(ctx):
