@@ -1,5 +1,6 @@
 import os
 import discord
+import openai
 from discord.ext import commands, tasks
 import random
 from datetime import datetime, timedelta
@@ -17,7 +18,29 @@ bot = commands.Bot(command_prefix=";", intents=intents, help_command=commands.De
 async def bump_task(channel):
     await channel.send("/bump")
 
+#Chat GPT stuff
+openai.api_key = os.getenv('OPENAI_API_KEY')
+MODEL_NAME = 'gpt-3.5-turbo'
+@bot.command()
+async def ask(ctx, *, question):
+    # Send initial 'Thinking...' message
+    temp_message = await ctx.send("Thinking...")
 
+    try:
+        # Call OpenAI API
+        response = openai.ChatCompletion.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": question}
+            ]
+        )
+
+        # Edit the 'Thinking...' message with the response
+        await temp_message.edit(content=response.choices[0].message['content'])
+    except Exception as e:
+        # In case of an error, edit the message to indicate failure
+        await temp_message.edit(content=f"Sorry, I couldn't process that request. Error: {e}")
 
 #Launch event in console
 @bot.event
