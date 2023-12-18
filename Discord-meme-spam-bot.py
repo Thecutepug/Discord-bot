@@ -14,24 +14,37 @@ intents = discord.Intents.all()
 #intents.guilds = True
 #intents.dm_messages = True
 bot = commands.Bot(command_prefix=";", intents=intents, help_command=commands.DefaultHelpCommand())
-
+openai.api_key = os.getenv('OPENAI_API_KEY')
+MODEL_NAME = 'gpt-3.5-turbo'
 
 #Chat GPT stuff
-MODEL_NAME = 'gpt-3.5-turbo'
+user_chat_histories = {}
 @bot.command(name='ask', help='Asks ChatGPT a question')
 async def ask(ctx, *, question):
     # Send initial 'Thinking...' message
     temp_message = await ctx.send("Thinking...")
+    user_id = str(ctx.author.id)
+
+    # Initialize chat history for the user if not already present
+    if user_id not in user_chat_histories:
+        user_chat_histories[user_id] = []
+
+    # Append user's question to chat history
+    user_chat_histories[user_id].append({"role": "user", "content": question})
 
     try:
-        # Call OpenAI API
+        # Call OpenAI API with the user's chat history
         response = openai.ChatCompletion.create(
             model=MODEL_NAME,
-             messages=[{"role": "user", "content": question}]
+            messages=user_chat_histories[user_id]
         )
 
+        # Get the response and update the chat history
+        bot_response = response.choices[0].message['content']
+        user_chat_histories[user_id].append({"role": "assistant", "content": bot_response})
+
         # Edit the 'Thinking...' message with the response
-        await temp_message.edit(content=response.choices[0].message['content'])
+        await temp_message.edit(content=bot_response)
     except Exception as e:
         # In case of an error, edit the message to indicate failure
         await temp_message.edit(content=f"Sorry, I couldn't process that request. Error: {e}")
