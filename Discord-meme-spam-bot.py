@@ -21,7 +21,7 @@ async def bump_task(channel):
     await channel.send("/bump")
 
 #Chat GPT stuff
-client = OpenAI(
+client = openai(
     # This is the default and can be omitted
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
