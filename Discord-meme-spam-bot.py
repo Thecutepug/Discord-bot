@@ -28,16 +28,14 @@ async def ask(ctx, *, question):
 
     try:
         # Call OpenAI API
-        response = openai.ChatCompletion.create(
+        response = openai.Completion.create(
             model=MODEL_NAME,
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": question}
-            ]
+            prompt=question,
+            max_tokens=150  # Adjust max tokens as needed
         )
 
         # Edit the 'Thinking...' message with the response
-        await temp_message.edit(content=response.choices[0].message['content'])
+        await temp_message.edit(content=response.choices[0].text.strip())
     except Exception as e:
         # In case of an error, edit the message to indicate failure
         await temp_message.edit(content=f"Sorry, I couldn't process that request. Error: {e}")
