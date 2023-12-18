@@ -1,9 +1,11 @@
 import os
 import discord
-import openai
+from openai import OpenAI
 from discord.ext import commands, tasks
 import random
 from datetime import datetime, timedelta
+
+import openai
 
 print("Connecting to Discord...")
 
@@ -19,7 +21,10 @@ async def bump_task(channel):
     await channel.send("/bump")
 
 #Chat GPT stuff
-openai.api_key = os.getenv('OPENAI_API_KEY')
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
 MODEL_NAME = 'gpt-3.5-turbo'
 @bot.command()
 async def ask(ctx, *, question):
@@ -28,10 +33,9 @@ async def ask(ctx, *, question):
 
     try:
         # Call OpenAI API
-        response = openai.Completion.create(
+        response = openai.ChatCompletion.create(
             model=MODEL_NAME,
-            prompt=question,
-            max_tokens=150  # Adjust max tokens as needed
+            messages=[{"role": "user", "content": question}]
         )
 
         # Edit the 'Thinking...' message with the response
