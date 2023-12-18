@@ -19,18 +19,20 @@ MODEL_NAME = 'gpt-3.5-turbo'
 
 #Chat GPT stuff
 user_chat_histories = {}
+MAX_HISTORY_MESSAGES = 5  # Number of messages to retain in history
 @bot.command(name='ask', help='Asks ChatGPT a question')
 async def ask(ctx, *, question):
     # Send initial 'Thinking...' message
     temp_message = await ctx.send("Thinking...")
     user_id = str(ctx.author.id)
 
-    # Initialize chat history for the user if not already present
+    # Initialize or update chat history
     if user_id not in user_chat_histories:
         user_chat_histories[user_id] = []
-
-    # Append user's question to chat history
     user_chat_histories[user_id].append({"role": "user", "content": question})
+
+    # Keep only the most recent part of the chat history
+    user_chat_histories[user_id] = user_chat_histories[user_id][-MAX_HISTORY_MESSAGES:]
 
     try:
         # Call OpenAI API with the user's chat history
@@ -39,14 +41,11 @@ async def ask(ctx, *, question):
             messages=user_chat_histories[user_id]
         )
 
-        # Get the response and update the chat history
+        # Process response
         bot_response = response.choices[0].message['content']
         user_chat_histories[user_id].append({"role": "assistant", "content": bot_response})
-
-        # Edit the 'Thinking...' message with the response
         await temp_message.edit(content=bot_response)
     except Exception as e:
-        # In case of an error, edit the message to indicate failure
         await temp_message.edit(content=f"Sorry, I couldn't process that request. Error: {e}")
 
 #Launch event in console
