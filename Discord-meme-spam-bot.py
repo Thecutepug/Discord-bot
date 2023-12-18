@@ -32,7 +32,7 @@ async def ask(ctx, *, question):
         response = openai.Completion.create(
             model=MODEL_NAME,
             prompt=question,
-            max_tokens=150  # Adjust max tokens as needed
+            max_tokens=1500
         )
 
         # Edit the 'Thinking...' message with the response
