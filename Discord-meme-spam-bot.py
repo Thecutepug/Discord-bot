@@ -18,7 +18,7 @@ bot = commands.Bot(command_prefix=";", intents=intents, help_command=commands.De
 
 #Chat GPT stuff
 MODEL_NAME = 'gpt-3.5-turbo'
-@bot.command()
+@bot.command(name='ask', help='Asks ChatGPT a question')
 async def ask(ctx, *, question):
     # Send initial 'Thinking...' message
     temp_message = await ctx.send("Thinking...")
@@ -74,7 +74,7 @@ async def on_message(message):
 '''
     
 #Do you love me command
-@bot.command(name='ask', help="Ask's Chat GPT a question")
+@bot.command(name='do_you_love_me', help='Ask the bot if it loves you')
 async def do_you_love_me(ctx):
     responses = [
         "No",
