@@ -29,10 +29,9 @@ async def ask(ctx, *, question):
 
     try:
         # Call OpenAI API
-        response = openai.Completion.create(
+        response = openai.ChatCompletion.create(
             model=MODEL_NAME,
-            prompt=question,
-            max_tokens=1500
+             messages=[{"role": "user", "content": question}]
         )
 
         # Edit the 'Thinking...' message with the response
