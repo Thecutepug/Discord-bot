@@ -1,6 +1,6 @@
 import os
 import discord
-from openai import OpenAI
+import openai
 from discord.ext import commands, tasks
 import random
 from datetime import datetime, timedelta
