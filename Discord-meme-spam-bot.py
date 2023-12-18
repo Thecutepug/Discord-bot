@@ -35,7 +35,7 @@ async def ask(ctx, *, question):
         )
 
         # Edit the 'Thinking...' message with the response
-        await temp_message.edit(content=response.choices[0].text.strip())
+        await temp_message.edit(content=response.choices[0].message['content'])
     except Exception as e:
         # In case of an error, edit the message to indicate failure
         await temp_message.edit(content=f"Sorry, I couldn't process that request. Error: {e}")
