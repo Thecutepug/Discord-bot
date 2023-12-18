@@ -21,10 +21,6 @@ async def bump_task(channel):
     await channel.send("/bump")
 
 #Chat GPT stuff
-client = openai(
-    # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
-)
 MODEL_NAME = 'gpt-3.5-turbo'
 @bot.command()
 async def ask(ctx, *, question):
@@ -34,10 +30,10 @@ async def ask(ctx, *, question):
     try:
         # Call OpenAI API
         response = openai.Completion.create(
-    model=MODEL_NAME,
-    prompt=question,
-    max_tokens=150
-)
+            model=MODEL_NAME,
+            prompt=question,
+            max_tokens=150  # Adjust max tokens as needed
+        )
 
         # Edit the 'Thinking...' message with the response
         await temp_message.edit(content=response.choices[0].text.strip())
