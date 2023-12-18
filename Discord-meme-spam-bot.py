@@ -16,10 +16,6 @@ intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=";", intents=intents, help_command=commands.DefaultHelpCommand())
 
 
-@tasks.loop(hours=4)
-async def bump_task(channel):
-    await channel.send("/bump")
-
 #Chat GPT stuff
 MODEL_NAME = 'gpt-3.5-turbo'
 @bot.command()
@@ -78,7 +74,7 @@ async def on_message(message):
 '''
     
 #Do you love me command
-@bot.command(name='do_you_love_me', help='Ask the bot if it loves you')
+@bot.command(name='ask', help="Ask's Chat GPT a question")
 async def do_you_love_me(ctx):
     responses = [
         "No",
