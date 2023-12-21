@@ -44,7 +44,14 @@ async def ask(ctx, *, question):
         # Process response
         bot_response = response.choices[0].message['content']
         user_chat_histories[user_id].append({"role": "assistant", "content": bot_response})
-        await temp_message.edit(content=bot_response)
+        # Check if response is too long and handle accordingly
+        if len(bot_response) > 2000:
+            first_part = bot_response[:2000]
+            await temp_message.edit(content=first_part)
+            for i in range(2000, len(bot_response), 2000):
+                await ctx.send(bot_response[i:i+2000])
+        else:
+            await temp_message.edit(content=bot_response)
     except Exception as e:
         await temp_message.edit(content=f"Sorry, I couldn't process that request. Error: {e}")
 
