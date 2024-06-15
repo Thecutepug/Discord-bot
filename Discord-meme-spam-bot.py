@@ -13,7 +13,7 @@ intents = discord.Intents.all()
 #intents.messages = True
 #intents.guilds = True
 #intents.dm_messages = True
-bot = commands.Bot(command_prefix=";", intents=intents, help_command=commands.DefaultHelpCommand())
+bot = commands.Bot(command_prefix="$", intents=intents, help_command=commands.DefaultHelpCommand())
 openai.api_key = os.getenv('OPENAI_API_KEY')
 MODEL_NAME = 'gpt-3.5-turbo'
 
